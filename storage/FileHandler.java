@@ -1,13 +1,15 @@
 package storage;
 
 import model.Student;
+
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileHandler {
     private static final String FILE_NAME = "students.txt";
 
-    public static List<Student> loadStudents() {
+    public static List<Student> readStudents() {
         List<Student> students = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
             String line;
@@ -18,19 +20,19 @@ public class FileHandler {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error loading students: " + e.getMessage());
+            System.out.println("No existing student file found. A new one will be created.");
         }
         return students;
     }
 
-    public static void saveStudents(List<Student> students) {
+    public static void writeStudents(List<Student> students) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
             for (Student s : students) {
                 writer.write(s.toString());
                 writer.newLine();
             }
         } catch (IOException e) {
-            System.out.println("Error saving students: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
